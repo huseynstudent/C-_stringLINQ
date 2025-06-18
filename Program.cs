@@ -81,14 +81,14 @@ class Program
     static void Main()
     {
 
-        //    2) rhyta.com ve ya dayrep.com domenlerinde emaili olan borclulari cixartmag
+        Console.WriteLine("\n\n\t2) rhyta.com ve ya dayrep.com domenlerinde emaili olan borclulari cixartmag");
         var result2 = debtors.Where(d => d.Email.EndsWith("@rhyta.com") || d.Email.EndsWith("@dayrep.com"));
         Console.WriteLine("2) rhyta.com ve ya dayrep.com domenlerinde emaili olan borclular: ");
         foreach (var debtor in result2)
         {
             Console.WriteLine(debtor);
         }
-        //3) Yashi 26 - dan 36 - ya qeder olan borclulari cixartmag
+        Console.WriteLine("\n\n\t3) Yashi 26 - dan 36 - ya qeder olan borclulari cixartmag");
         var today = DateTime.Today;
         foreach (var d in debtors.Where(d =>
         {
@@ -97,16 +97,16 @@ class Program
             return age >= 26 && age <= 36;
         }))
             Console.WriteLine(d);
-        //4) Borcu 5000 - den cox olmayan borclularic cixartmag
+        Console.WriteLine("\n\n\t4) Borcu 5000 - den cox olmayan borclularic cixartmag");
         foreach (var d in debtors.Where(d => d.Debt <= 5000))
             Console.WriteLine(d);
-        //5) Butov adi 18 simvoldan cox olan ve telefon nomresinde 2 ve ya 2 - den cox 7 reqemi olan borclulari cixartmaq
+        Console.WriteLine("\n\n\t5) Butov adi 18 simvoldan cox olan ve telefon nomresinde 2 ve ya 2 - den cox 7 reqemi olan borclulari cixartmaq");
         foreach (var d in debtors.Where(d => d.FullName.Length > 18 && d.Phone.Count(c => c == '7') >= 2))
             Console.WriteLine(d);
-        //7) Qishda anadan olan borclulari cixardmaq
+        Console.WriteLine("\n\n\t7) Qishda anadan olan borclulari cixardmaq");
         foreach (var d in debtors.Where(d => d.BirthDay.Month == 12 || d.BirthDay.Month == 1 || d.BirthDay.Month == 2))
             Console.WriteLine(d);
-        //8) Borcu, umumi borclarin orta borcunnan cox olan borclulari cixarmaq ve evvel familyaya gore sonra ise meblegin azalmagina gore sortirovka etmek
+        Console.WriteLine("\n\n\t8) Borcu, umumi borclarin orta borcunnan cox olan borclulari cixarmaq ve evvel familyaya gore sonra ise meblegin azalmagina gore sortirovka etmek");
         var avgDebt = debtors.Average(d => d.Debt);
         var result8 = debtors
             .Where(d => d.Debt > avgDebt)
@@ -114,7 +114,7 @@ class Program
             .ThenByDescending(d => d.Debt);
         foreach (var d in result8)
             Console.WriteLine(d);
-        //9) Telefon nomresinde 8 olmayan borclularin yalniz familyasin, yashin ve umumi borcun meblegin cixarmaq
+        Console.WriteLine("\n\n\t9) Telefon nomresinde 8 olmayan borclularin yalniz familyasin, yashin ve umumi borcun meblegin cixarmaq");
         foreach (var d in debtors
     .Where(d => !d.Phone.Contains('8'))
     .Select(d => new
@@ -124,34 +124,34 @@ class Program
         d.Debt
     }))
             Console.WriteLine($"{d.Surname} | Age: {d.Age} | Debt: {d.Debt}");
-        //11)Adinda ve familyasinda hec olmasa 3 eyni herf olan borclularin siyahisin cixarmaq ve onlari elifba sirasina gore sortirovka elemek
+        Console.WriteLine("\n\n\t11)Adinda ve familyasinda hec olmasa 3 eyni herf olan borclularin siyahisin cixarmaq ve onlari elifba sirasina gore sortirovka elemek");
         Console.WriteLine("\nTask 11:");
         foreach (var d in debtors
             .Where(d => d.FullName.ToLower().GroupBy(c => c).Any(g => char.IsLetter(g.Key) && g.Count() >= 3))
             .OrderBy(d => d.FullName))
             Console.WriteLine(d);
-        //13)borclulardan en coxu hansi ilde dogulubsa hemin ili cixartmaq
-        //var mostCommonYear = debtors
-    //.GroupBy(d => d.BirthDay.Year)       
-    //.OrderByDescending(g => g.Count()) 
-    //.First()                                                         ?? arasdir ili ayri goturmenin yolunu
-
-        //14)Borcu en boyuk olan 5 borclunun siyahisini cixartmaq
+        Console.WriteLine("\n\n\t13)borclulardan en coxu hansi ilde dogulubsa hemin ili cixartmaq");
+        var mostCommonYear = debtors
+        .GroupBy(d => d.BirthDay.Year)
+        .OrderByDescending(g => g.Count())
+        .First().Key;
+        Console.WriteLine($"Most debtors were born in {mostCommonYear}.");
+        Console.WriteLine("\n\n\t14)Borcu en boyuk olan 5 borclunun siyahisini cixartmaq");
         var sortedDebtors = debtors.OrderByDescending(d => d.Debt).ToList();
         for (int i = 0; i < 5 && i < sortedDebtors.Count; i++)
         {
             Console.WriteLine($"{i + 1}) {sortedDebtors[i]}");
         }
-        //15)Butun borcu olanlarin borcunu cemleyib umumi borcu cixartmaq
+        Console.WriteLine("\n\n\t15)Butun borcu olanlarin borcunu cemleyib umumi borcu cixartmaq");
         Console.WriteLine("Total debt: " + debtors.Sum(d => d.Debt));
-        //16)2ci dunya muharibesin gormush borclularin siyahisi cixartmaq
+        Console.WriteLine("\n\n\t16)2ci dunya muharibesin gormush borclularin siyahisi cixartmaq");
         foreach (var d in debtors.Where(d => d.BirthDay.Year <= 1945))
             Console.WriteLine(d);
-        //18)Nomresinde tekrar reqemler olmayan borclularin ve onlarin borcunun meblegin cixartmaq
+        Console.WriteLine("\n\n\t18)Nomresinde tekrar reqemler olmayan borclularin ve onlarin borcunun meblegin cixartmaq");
         foreach (var d in debtors
     .Where(d => d.Phone.Where(char.IsDigit).GroupBy(c => c).All(g => g.Count() == 1)))
             Console.WriteLine($"{d} | Debt: {d.Debt}");
-        //19)Tesevvur edek ki,butun borclari olanlar bugunden etibaren her ay 500 azn pul odeyecekler.Oz ad gunune kimi borcun oduyub qurtara bilenlerin siyahisin cixartmaq
+        Console.WriteLine("\n\n\t19)Tesevvur edek ki,butun borclari olanlar bugunden etibaren her ay 500 azn pul odeyecekler.Oz ad gunune kimi borcun oduyub qurtara bilenlerin siyahisin cixartmaq");
         foreach (var d in debtors.Where(d => {
             var nextBday = new DateTime(today.Year, d.BirthDay.Month, d.BirthDay.Day);
             if (nextBday < today) nextBday = nextBday.AddYears(1);
@@ -159,7 +159,7 @@ class Program
             return d.Debt <= months * 500;
         }))
             Console.WriteLine(d);
-        //20)Adindaki ve familyasindaki herflerden "smile" sozunu yaza bileceyimiz borclularin siyahisini cixartmaq
+        Console.WriteLine("\n\n\t20)Adindaki ve familyasindaki herflerden smile sozunu yaza bileceyimiz borclularin siyahisini cixartmaq");
         string word = "smile";
         foreach (var d in debtors.Where(d => word.All(c => d.FullName.ToLower().Contains(c))))
             Console.WriteLine(d);
